@@ -1,0 +1,24 @@
+---
+  - name: Playbook to get hosted zone
+    hosts: localhost
+    connection: local
+    vars:
+    tasks:
+      - name: Retrieve the details for hosted zones
+        route53_info:
+          query: hosted_zone
+          hosted_zone_method: list_by_name
+          max_items: "1"
+        register: hz
+
+      - name: Output Hosted Zone
+        debug:
+          var: hz.HostedZones[0].Name
+
+      - name: Update HZ value
+        lineinfile:
+          path: ./common.auto.tfvars
+          regexp: '(^domain_name.*=)'
+          backrefs: yes
+          line: \1 "vault.{{ hz.HostedZones[0].Name | regex_replace('.$', '')}}"
+
