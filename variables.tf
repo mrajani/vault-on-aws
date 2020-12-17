@@ -43,7 +43,7 @@ variable "aws_default_region" {
 variable "vault_version" {
   description = "Version of vault to use."
   type = string
-  default = "1.4.0"
+  default = "1.6.0"
 }
 
 # Operator Mode
@@ -138,7 +138,7 @@ variable "vpc_private_subnet_count" {
 variable "vault_instance_type" {
   description = "The EC2 instance size of the vault instances."
   type = string
-  default = "t2.medium"
+  default = "t2.micro"
 }
 
 # EC2 - Vault Instance AutoScaling Group
