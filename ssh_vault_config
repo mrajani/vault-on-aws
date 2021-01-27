@@ -1,0 +1,21 @@
+# Replace with real asg address
+Host vault-0
+  HostName 10.255.2.203
+Host vault-1
+  HostName 10.255.3.24
+  
+Host bastion
+  HostName 8.8.8.8
+  IdentityFile ~/.ssh/ec2-vault-key.pem
+
+Host vault-*
+  IdentityFile ~/.ssh/ec2-vault-key.pem
+  ProxyCommand ssh -F ssh_vault_config bastion -W %h:%p
+  
+Host *
+  User ec2-user
+  StrictHostKeyChecking no
+  ForwardAgent Yes
+  ControlMaster auto
+  ControlPath  ~/.ssh/ansible-%r@%h:%p
+  ControlPersist 30m
